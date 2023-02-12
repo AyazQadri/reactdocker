@@ -1,0 +1,28 @@
+# Define the version of docker-compose
+version: "3"
+
+# Define the services that are required for the project
+services:
+  # Define the name of the service as web
+  web:
+    # Use the node image from Docker Hub as the base image
+    image: node:14
+    # Specify the working directory in the container
+    working_dir: /app
+    # Copy the package.json and package-lock.json files to the container
+    # These files contain the dependencies required for the project
+    # This way, we can run npm install within the container
+    # instead of having to install all dependencies locally
+    # The "." in the path refers to the current directory,
+    # and the "app/" refers to the location of the files within the current directory
+    # The destination folder in the container is /app
+    # This will be our working directory
+    volumes:
+      - .:/app
+    # Run the following command when the container starts
+    # This command will install the required dependencies and start the development server
+    command: bash -c "npm install && npm start"
+    # Expose port 3000 so that the development server can be accessed from the host
+    ports:
+      - "3000:3000"
+
